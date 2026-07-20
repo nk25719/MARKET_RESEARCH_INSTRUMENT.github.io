@@ -1,0 +1,1223 @@
+<style>
+  :root{
+    --ink:#1B2421;
+    --paper:#F4F7F5;
+    --panel:#FFFFFF;
+    --teal-900:#0E3B38;
+    --teal-700:#12554F;
+    --teal-500:#1C7A72;
+    --amber:#D98A3D;
+    --amber-soft:#F3D9B8;
+    --mist:#DCE7E3;
+    --line:#C9D6D1;
+    --danger:#B5493F;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', -apple-system, sans-serif;
+    --display:'Newsreader', Georgia, serif;
+    --radius:10px;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  *{box-sizing:border-box;}
+  .pv-root{font-family:var(--sans);color:var(--ink);background:var(--paper);min-height:100%;-webkit-font-smoothing:antialiased;}
+  .pv-shell{max-width:1080px;margin:0 auto;padding:28px 24px 64px;transition:max-width .15s ease;}
+  .pv-shell.pv-shell-narrow{max-width:560px;}
+
+  .pv-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px;flex-wrap:wrap;}
+  .pv-title-block{display:flex;flex-direction:column;gap:4px;}
+  .pv-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-500);}
+  .pv-title{font-family:var(--display);font-size:32px;font-weight:600;color:var(--teal-900);margin:0;line-height:1.1;}
+  .pv-sub{font-size:13.5px;color:#4B5A55;max-width:520px;}
+  .pv-wave svg{display:block;}
+
+  .pv-tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;}
+  .pv-tab{font-family:var(--sans);font-size:13.5px;font-weight:600;color:#5C6A65;background:none;border:none;padding:10px 4px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
+  .pv-tab + .pv-tab{margin-left:18px;}
+  .pv-tab:hover{color:var(--teal-700);}
+  .pv-tab.active{color:var(--teal-900);border-bottom-color:var(--amber);}
+
+  .pv-panel{display:none;}
+  .pv-panel.active{display:block;animation:pvFade .18s ease;}
+  @keyframes pvFade{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:none;}}
+
+  .pv-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:16px;}
+
+  .pv-field{margin-bottom:18px;}
+  .pv-field label.pv-q{display:block;font-weight:600;font-size:14px;margin-bottom:2px;color:var(--ink);}
+  .pv-req{color:var(--amber);margin-left:3px;}
+  .pv-hint{font-size:11.5px;color:#7A8983;font-family:var(--mono);}
+  .pv-input, .pv-select, textarea.pv-input{width:100%;font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:9px 11px;}
+  .pv-input:focus, .pv-select:focus, textarea.pv-input:focus{outline:none;border-color:var(--teal-500);background:#fff;}
+  textarea.pv-input{resize:vertical;min-height:70px;}
+  .pv-options{display:flex;flex-direction:column;gap:7px;margin-top:4px;}
+  .pv-option-row{display:flex;align-items:center;gap:9px;font-size:13.5px;}
+  .pv-option-row input{accent-color:var(--teal-500);width:16px;height:16px;flex:0 0 auto;}
+
+  .pv-btn{font-family:var(--sans);font-weight:600;font-size:13.5px;border-radius:7px;padding:10px 18px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+  .pv-btn:active{transform:scale(.98);}
+  .pv-btn-primary{background:var(--teal-900);color:#fff;}
+  .pv-btn-primary:hover{background:var(--teal-700);}
+  .pv-btn-ghost{background:transparent;color:var(--teal-700);border-color:var(--line);}
+  .pv-btn-ghost:hover{border-color:var(--teal-500);}
+  .pv-btn-danger{background:transparent;color:var(--danger);border-color:#E6C9C5;font-size:12px;padding:6px 10px;}
+  .pv-btn-danger:hover{background:#FBEFED;}
+  .pv-btn-sm{font-size:12px;padding:6px 11px;}
+  .pv-btn[disabled]{opacity:.5;cursor:not-allowed;}
+
+  .pv-empty{text-align:center;padding:46px 20px;color:#6B7B75;}
+  .pv-empty .pv-wave{margin:0 auto 14px;}
+  .pv-empty-title{font-family:var(--display);font-size:18px;color:var(--teal-900);margin-bottom:4px;}
+  .pv-empty-sub{font-size:13px;}
+
+  .pv-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--teal-900);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:50;box-shadow:0 8px 24px rgba(14,59,56,.28);}
+  .pv-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .pv-branch-block{border:1px dashed var(--teal-500);border-radius:9px;padding:16px;background:#EFF6F4;margin:6px 0 18px;}
+  .pv-branch-label{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--teal-700);margin-bottom:10px;}
+
+  .pv-qcard{border:1px solid var(--line);border-radius:9px;padding:16px;background:var(--paper);margin-bottom:12px;}
+  .pv-qcard-top{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
+  .pv-qnum{font-family:var(--mono);font-size:11px;color:var(--amber);background:var(--amber-soft);border-radius:5px;padding:3px 7px;flex:0 0 auto;}
+  .pv-qcard-actions{margin-left:auto;display:flex;gap:6px;}
+  .pv-icon-btn{background:none;border:1px solid var(--line);border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#5C6A65;}
+  .pv-icon-btn:hover{border-color:var(--teal-500);color:var(--teal-700);}
+  .pv-row2{display:flex;gap:10px;}
+  .pv-row2 > *{flex:1;}
+
+  .pv-subtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+  .pv-pill{font-family:var(--mono);font-size:11.5px;padding:7px 13px;border-radius:20px;border:1px solid var(--line);background:var(--panel);color:#5C6A65;cursor:pointer;}
+  .pv-pill:hover{border-color:var(--teal-500);}
+  .pv-pill.active{background:var(--teal-900);color:#fff;border-color:var(--teal-900);}
+  .pv-builder-section{display:none;}
+  .pv-builder-section.active{display:block;}
+  .pv-section-note{font-size:12.5px;color:#5C6A65;margin-bottom:14px;line-height:1.55;}
+
+  .pv-stats{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .pv-stat{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:12px 16px;min-width:120px;}
+  .pv-stat-num{font-family:var(--display);font-size:24px;color:var(--teal-900);line-height:1;}
+  .pv-stat-label{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:#6B7B75;margin-top:4px;}
+
+  .pv-toolbar{display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;}
+  .pv-toolbar input[type=text]{max-width:260px;}
+  .pv-toolbar .pv-select{max-width:200px;}
+
+  .pv-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);}
+  table.pv-table{border-collapse:collapse;width:100%;font-size:12.5px;}
+  table.pv-table th{text-align:left;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:#5C6A65;background:var(--mist);padding:9px 12px;white-space:nowrap;}
+  table.pv-table td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top;max-width:220px;}
+  table.pv-table tr:hover td{background:#FAFCFB;}
+  .pv-cell-name{font-weight:600;color:var(--teal-900);}
+  .pv-cell-sub{font-size:11px;color:#7A8983;}
+  .pv-mini-select, .pv-mini-input{font-family:var(--sans);font-size:12px;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:var(--paper);width:100%;}
+  .pv-mini-input{min-width:110px;}
+  .pv-badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em;}
+  .pv-badge-new{background:#E4ECEA;color:#4B5A55;}
+  .pv-badge-contacted{background:#DCEAF5;color:#2E5D7D;}
+  .pv-badge-scheduled{background:var(--amber-soft);color:#8C5A1E;}
+  .pv-badge-pilot{background:#DCEFE0;color:#2C6E3F;}
+  .pv-badge-closed{background:#E9E4EA;color:#5A4E63;}
+  .pv-badge-lost{background:#F5DEDC;color:#8C3A30;}
+  .pv-segment-tag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--teal-700);background:#E1EEEC;border-radius:5px;padding:2px 6px;margin-top:3px;}
+
+  .pv-detail-toggle{background:none;border:none;color:var(--teal-500);font-size:11px;font-family:var(--mono);cursor:pointer;padding:0;text-decoration:underline;}
+  .pv-detail{display:none;background:var(--paper);border-top:1px dashed var(--line);}
+  .pv-detail.open{display:table-row;}
+  .pv-detail-inner{padding:14px 18px;font-size:12.5px;line-height:1.7;}
+  .pv-detail-inner b{color:var(--teal-900);}
+  .pv-detail-group-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--teal-500);margin:10px 0 4px;}
+  .pv-detail-group-label:first-child{margin-top:0;}
+
+  .pv-footer-note{font-size:11.5px;color:#7A8983;margin-top:10px;text-align:center;}
+  .pv-share-box{display:flex;gap:8px;align-items:center;background:var(--mist);border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:12.5px;color:#3E4C47;}
+
+  @media (max-width:640px){
+    .pv-title{font-size:24px;}
+    .pv-row2{flex-direction:column;}
+    .pv-shell{padding:18px 14px 48px;}
+  }
+
+  /* ---- login gate ---- */
+  .pv-gate-wrap{max-width:520px;margin:56px auto 0;}
+  .pv-gate-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:48px 44px 40px;box-shadow:0 24px 60px rgba(14,59,56,.10);position:relative;overflow:hidden;}
+  .pv-gate-card::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--teal-500),var(--amber));}
+  .pv-gate-icon{width:60px;height:60px;border-radius:50%;background:var(--mist);display:flex;align-items:center;justify-content:center;margin:4px auto 20px;}
+  .pv-gate-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-500);text-align:center;display:block;margin-bottom:8px;}
+  .pv-gate-title{font-family:var(--display);font-size:28px;color:var(--teal-900);margin-bottom:8px;text-align:center;font-weight:600;}
+  .pv-gate-sub{font-size:13.5px;color:#5C6A65;margin-bottom:30px;line-height:1.6;text-align:center;max-width:380px;margin-left:auto;margin-right:auto;}
+  .pv-gate-card .pv-field label.pv-q{font-size:13px;}
+  .pv-gate-card .pv-input{padding:12px 14px;font-size:14.5px;}
+  .pv-gate-card .pv-btn-primary{padding:13px 18px;font-size:14px;margin-top:4px;}
+  .pv-gate-error{font-size:12.5px;color:var(--danger);margin-bottom:14px;display:none;background:#FBEFED;border-radius:6px;padding:8px 11px;}
+  .pv-gate-error.show{display:block;}
+  .pv-gate-footer{text-align:center;margin-top:26px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:#7A8983;}
+  .pv-gate-footer button{background:none;border:none;color:var(--teal-500);text-decoration:underline;cursor:pointer;font-size:12.5px;font-weight:600;font-family:var(--sans);padding:0;}
+  .pv-gate-back{background:none;border:none;color:var(--teal-500);cursor:pointer;font-size:12.5px;font-family:var(--mono);padding:0;margin-bottom:18px;display:inline-flex;align-items:center;gap:5px;}
+
+  .pv-topbar{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-bottom:10px;font-size:12px;color:#5C6A65;}
+  .pv-who{font-family:var(--mono);}
+  .pv-logout{background:none;border:none;color:var(--teal-500);text-decoration:underline;cursor:pointer;font-size:12px;}
+</style>
+
+<div class="pv-root">
+  <div class="pv-shell pv-shell-narrow" id="pvShell">
+
+    <div class="pv-header">
+      <div class="pv-title-block">
+        <span class="pv-eyebrow">Market Research Instrument</span>
+        <h1 class="pv-title" id="pvTitleText">Quick Check-In</h1>
+        <div class="pv-sub" id="pvSubText">Tailored by institution type — editable survey, live response capture, and a working CRM.</div>
+      </div>
+      <div class="pv-wave" id="pvHeaderWave"></div>
+    </div>
+
+    <!-- ===================== LOGIN GATE ===================== -->
+    <div id="loginGate">
+      <div class="pv-gate-wrap">
+
+        <div class="pv-gate-card" id="gateRespondent">
+          <div class="pv-gate-icon" id="gateIconRespondent"></div>
+          <span class="pv-gate-eyebrow">Market Research Instrument</span>
+          <div class="pv-gate-title">PolyVent Market Assessment</div>
+          <div class="pv-gate-sub">Just your name and email — this is saved with your response so our team can follow up with you directly.</div>
+          <div class="pv-field">
+            <label class="pv-q">Your name / username</label>
+            <input class="pv-input" id="gateUsername" type="text" placeholder="e.g. Jane Smith" />
+          </div>
+          <div class="pv-field" style="margin-bottom:18px;">
+            <label class="pv-q">Email address</label>
+            <input class="pv-input" id="gateEmail" type="email" placeholder="you@institution.edu" />
+          </div>
+          <div class="pv-gate-error" id="gateRespondentError">Please enter both a name and a valid email.</div>
+          <button class="pv-btn pv-btn-primary" id="gateRespondentBtn" style="width:100%;justify-content:center;">Continue to Survey</button>
+          <div class="pv-gate-footer">Administering this study? <button id="showAdminLink">Log in as admin</button></div>
+        </div>
+
+        <div class="pv-gate-card" id="gateAdmin" style="display:none;">
+          <button class="pv-gate-back" id="showRespondentLink">&larr; Back</button>
+          <div class="pv-gate-icon" id="gateIconAdmin"></div>
+          <span class="pv-gate-eyebrow">Administrator Access</span>
+          <div class="pv-gate-title">Admin Login</div>
+          <div class="pv-gate-sub">Manage survey questions and view the CRM dashboard.</div>
+          <div class="pv-field">
+            <label class="pv-q">Username</label>
+            <input class="pv-input" id="gateAdminUser" type="text" autocomplete="username" />
+          </div>
+          <div class="pv-field" style="margin-bottom:18px;">
+            <label class="pv-q">Password</label>
+            <input class="pv-input" id="gateAdminPass" type="password" autocomplete="current-password" />
+          </div>
+          <div class="pv-gate-error" id="gateAdminError">Incorrect username or password.</div>
+          <button class="pv-btn pv-btn-primary" id="gateAdminBtn" style="width:100%;justify-content:center;">Log In</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== APP BODY ===================== -->
+    <div id="appBody" style="display:none;">
+      <div class="pv-topbar">
+        <span class="pv-who" id="whoAmI"></span>
+        <button class="pv-logout" id="logoutBtn">Log out</button>
+      </div>
+
+      <div class="pv-tabs">
+        <button class="pv-tab active" data-tab="survey">Take Survey</button>
+        <button class="pv-tab" data-tab="builder" id="tabBtnBuilder">Edit Questions</button>
+        <button class="pv-tab" data-tab="crm" id="tabBtnCrm">CRM Dashboard</button>
+      </div>
+
+      <!-- ===================== SURVEY TAB ===================== -->
+      <div class="pv-panel active" id="panel-survey">
+        <div class="pv-share-box">
+          <span>&#9998;</span>
+          <span>Questions adapt to institution type, and answers save straight into the CRM tab.</span>
+        </div>
+        <div class="pv-card" id="surveyFormCard">
+          <div id="surveyLoading" class="pv-empty"><div class="pv-empty-sub">Loading survey…</div></div>
+        </div>
+      </div>
+
+    <!-- ===================== BUILDER TAB ===================== -->
+    <div class="pv-panel" id="panel-builder">
+      <div class="pv-subtabs" id="builderSubtabs">
+        <button class="pv-pill active" data-section="general">General</button>
+        <button class="pv-pill" data-section="common">Asked to Everyone (start)</button>
+        <button class="pv-pill" data-section="segments">By Institution Type</button>
+        <button class="pv-pill" data-section="closing">Asked to Everyone (end)</button>
+      </div>
+
+      <div class="pv-builder-section active" id="builder-general">
+        <div class="pv-card">
+          <div class="pv-field">
+            <label class="pv-q">Survey title</label>
+            <input class="pv-input" id="builderTitle" type="text" />
+          </div>
+          <div class="pv-field">
+            <label class="pv-q">Intro / description</label>
+            <textarea class="pv-input" id="builderDesc"></textarea>
+          </div>
+          <div class="pv-field" style="margin-bottom:0;">
+            <label class="pv-q">Thank-you message <span class="pv-hint">shown right after someone submits</span></label>
+            <textarea class="pv-input" id="builderThanks"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="pv-builder-section" id="builder-common">
+        <div class="pv-section-note">These questions appear at the top, before branching. One of them (a multiple-choice question) must be marked as the <b>branch question</b> — its answer decides which tailored question set appears next.</div>
+        <div class="pv-card" style="padding-bottom:10px;">
+          <div class="pv-field" style="margin-bottom:0;">
+            <label class="pv-q" style="font-size:13px;">Branch on this question</label>
+            <select class="pv-select" id="branchQuestionSelect"></select>
+          </div>
+        </div>
+        <div id="commonQuestionList"></div>
+        <button class="pv-btn pv-btn-ghost" data-add="common">+ Add question</button>
+      </div>
+
+      <div class="pv-builder-section" id="builder-segments">
+        <div class="pv-section-note">Each institution type below gets its own follow-up questions — tailored to that audience (university lab, veterinary clinic, hospital, CRO, industry, etc). Segments come from the options on your branch question.</div>
+        <div class="pv-subtabs" id="segmentSubtabs"></div>
+        <div id="segmentQuestionList"></div>
+        <button class="pv-btn pv-btn-ghost" data-add="segment">+ Add question to this segment</button>
+      </div>
+
+      <div class="pv-builder-section" id="builder-closing">
+        <div class="pv-section-note">These questions appear last, for every respondent regardless of institution type — good for budget, feature priorities, and interest level.</div>
+        <div id="closingQuestionList"></div>
+        <button class="pv-btn pv-btn-ghost" data-add="closing">+ Add question</button>
+      </div>
+
+      <div style="margin-top:20px;display:flex;gap:10px;align-items:center;">
+        <button class="pv-btn pv-btn-primary" id="saveSurveyBtn">Save changes</button>
+        <span id="builderSaveStatus" class="pv-footer-note" style="margin-top:0;"></span>
+      </div>
+    </div>
+
+    <!-- ===================== CRM TAB ===================== -->
+    <div class="pv-panel" id="panel-crm">
+      <div class="pv-stats" id="crmStats"></div>
+      <div class="pv-toolbar">
+        <input type="text" class="pv-input" id="crmSearch" placeholder="Search name, institution, country…" />
+        <select class="pv-select" id="crmSegmentFilter"><option value="">All institution types</option></select>
+        <select class="pv-select" id="crmStatusFilter">
+          <option value="">All stages</option>
+          <option value="New Lead">New Lead</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Interview Scheduled">Interview Scheduled</option>
+          <option value="Pilot Discussion">Pilot Discussion</option>
+          <option value="Closed - Won">Closed - Won</option>
+          <option value="Closed - Lost">Closed - Lost</option>
+        </select>
+        <button class="pv-btn pv-btn-ghost pv-btn-sm" id="exportCsvBtn">Export CSV</button>
+        <button class="pv-btn pv-btn-ghost pv-btn-sm" id="refreshCrmBtn">Refresh</button>
+      </div>
+      <div id="crmTableWrap"></div>
+    </div>
+    </div><!-- /appBody -->
+
+  </div>
+</div>
+
+<div class="pv-toast" id="pvToast"></div>
+
+<script>
+(function(){
+  const NS = 'polyvent';
+  const CONFIG_KEY = NS + ':survey-config-v2';
+  const RESPONSE_PREFIX = NS + ':response:';
+
+  const WAVE_SVG = (w, h, stroke) => `
+    <svg width="${w}" height="${h}" viewBox="0 0 160 40" fill="none">
+      <path d="M0 20 L28 20 L36 6 L44 34 L52 20 L64 20 L70 12 L76 28 L82 20 L160 20"
+        stroke="${stroke}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  document.getElementById('pvHeaderWave').innerHTML = WAVE_SVG(150, 38, '#D98A3D');
+
+  function mkQ(id, label, type, opts){
+    return Object.assign({ id, label, type, required: false }, opts||{});
+  }
+
+  const SEG_UNI = "University / Academic (Biomedical Eng, Physiology, Respiratory Therapy)";
+  const SEG_VET = "Veterinary School or Clinic";
+  const SEG_HOSP = "Hospital / Clinical Center";
+  const SEG_CRO = "CRO / Private Research Laboratory";
+  const SEG_IND = "Medical Device Company / Industry";
+  const SEG_GOV = "Government / Public Health / NGO";
+  const SEG_OTHER = "Other";
+
+  const DEFAULT_CONFIG = {
+    title: "PolyVent Global Market Assessment",
+    description: "Thank you for considering participation in our Global Respiratory Education & Research Market Assessment. This short instrument (10–15 minutes) adapts to your institution type so we only ask what's relevant to you.",
+    thankYouMessage: "Thank you — your response has been recorded. We truly appreciate you taking the time to share your perspective. If you indicated interest in a follow-up conversation, a member of our team will be in touch shortly.",
+    branchQuestionId: "q_type",
+    questions: [
+      mkQ("q_name", "Full name", "text", { required: true }),
+      mkQ("q_position", "Job title / Position", "text", { required: true }),
+      mkQ("q_institution", "Institution / Organization", "text", { required: true }),
+      mkQ("q_country", "Country", "text", { required: true }),
+      mkQ("q_email", "Email address", "text", { required: false }),
+      mkQ("q_type", "Institution type", "radio", { required: true, options: [SEG_UNI, SEG_VET, SEG_HOSP, SEG_CRO, SEG_IND, SEG_GOV, SEG_OTHER] }),
+    ],
+    segments: {
+      [SEG_UNI]: { questions: [
+        mkQ("u_dept", "Which department best describes your work?", "radio", { options: ["Biomedical Engineering","Physiology","Respiratory Therapy Program","Medical School","Simulation Center","Other"] }),
+        mkQ("u_teaches", "Do you teach a laboratory course that uses or could use respiratory/ventilator equipment?", "radio", { options: ["Yes","No","Not sure"] }),
+        mkQ("u_students", "Approximate number of students per year who would use this equipment", "text"),
+        mkQ("u_current", "What ventilator or respiratory equipment do you currently use for teaching or research?", "text"),
+        mkQ("u_package", "Would a complete laboratory package (ventilator + test lung + sensors + curriculum + software) be more valuable than a single device?", "radio", { options: ["Yes, much more valuable","Maybe","No, just the device"] }),
+        mkQ("u_approver", "Who approves equipment purchases in your department?", "radio", { options: ["I do","Principal Investigator","Department chair","Procurement committee","Other"] }),
+        mkQ("u_funding", "What funding sources typically pay for equipment like this?", "checkbox", { options: ["NIH","NSF","EU Horizon","Wellcome Trust","Internal department budget","Teaching / education grant","Other"] }),
+        mkQ("u_pilot_curriculum", "Would you be interested in piloting a full teaching laboratory curriculum (not just the ventilator)?", "radio", { options: ["Yes","Maybe","No"] }),
+      ]},
+      [SEG_VET]: { questions: [
+        mkQ("v_focus", "Primary focus", "radio", { options: ["Clinical practice","Teaching / education","Research","Mix of the above"] }),
+        mkQ("v_species", "Which species do you most commonly ventilate?", "checkbox", { options: ["Small animal (dog/cat)","Large animal (equine/bovine)","Exotic / lab animal","Multiple species"] }),
+        mkQ("v_current", "What ventilator brand/model do you currently use?", "text"),
+        mkQ("v_interest", "Would a lower-cost, open veterinary ventilator interest you for clinical use, teaching use, or both?", "radio", { options: ["Clinical use","Teaching use","Both","Neither"] }),
+        mkQ("v_approver", "Who approves equipment purchases at your clinic/school?", "radio", { options: ["I do","Clinic director / Dean","Procurement committee","Hospital administration","Other"] }),
+      ]},
+      [SEG_HOSP]: { questions: [
+        mkQ("h_dept", "Which department are you responding for?", "radio", { options: ["ICU / Critical care","Anesthesia","Respiratory therapy","Simulation / training center","Other"] }),
+        mkQ("h_fleet", "How many ventilators does your department currently operate?", "text"),
+        mkQ("h_cycle", "What is your typical ventilator replacement cycle?", "radio", { options: ["1–2 years","3–5 years","6–10 years","10+ years","Not sure"] }),
+        mkQ("h_approver", "Who approves capital equipment purchases at your hospital?", "radio", { options: ["I do","Department head","Biomedical engineering","Procurement / administration","Other"] }),
+        mkQ("h_grade", "Would you be more interested in a clinical-grade device or a training/simulation device?", "radio", { options: ["Clinical-grade","Training / simulation","Both"] }),
+      ]},
+      [SEG_CRO]: { questions: [
+        mkQ("c_studies", "What type of studies does your lab primarily conduct?", "checkbox", { options: ["Preclinical pharma studies","Medical device testing","Academic contract research","Regulatory / GLP studies","Other"] }),
+        mkQ("c_perstudy", "On average, how many ventilators do you use per active study?", "text"),
+        mkQ("c_purchase", "Would you prefer to purchase equipment outright or rent/lease per study?", "radio", { options: ["Purchase","Rent / lease","Depends on study","Not sure"] }),
+        mkQ("c_budget", "What is your typical equipment budget per study or per year?", "text"),
+      ]},
+      [SEG_IND]: { questions: [
+        mkQ("i_interest", "What best describes your interest?", "checkbox", { options: ["Distribution partnership","Licensing technology","Manufacturing / supply partnership","Integrating our products with yours","Investment / acquisition interest"] }),
+        mkQ("i_products", "What complementary products does your company make?", "checkbox", { options: ["Sensors","Test lungs","Patient monitors","Oxygen analyzers","Software / data platforms","Other"] }),
+        mkQ("i_ecosystem", "Would you be interested in integrating with an open respiratory-engineering-education ecosystem (ventilator + monitoring + curriculum)?", "radio", { options: ["Yes","Maybe","No"] }),
+      ]},
+      [SEG_GOV]: { questions: [
+        mkQ("g_focus", "What best describes your focus area?", "checkbox", { options: ["Public health capacity building","Training and education programs","Humanitarian / disaster response","Rural or low-resource healthcare deployment","Policy / regulatory"] }),
+        mkQ("g_funding", "What is your primary funding source?", "text"),
+        mkQ("g_relevance", "Would low-cost respiratory equipment for low-resource settings be relevant to your programs?", "radio", { options: ["Yes, very relevant","Somewhat","Not currently"] }),
+      ]},
+      [SEG_OTHER]: { questions: [
+        mkQ("o_role", "Please describe your role and how respiratory/ventilator equipment fits into your work", "textarea"),
+        mkQ("o_useful", "What would make this equipment useful to you?", "textarea"),
+      ]},
+    },
+    closingQuestions: [
+      mkQ("cl_budget", "Typical budget range for a single ventilator unit", "radio", { options: ["Under $5,000","$5,000 – $15,000","$15,000 – $30,000","$30,000 – $50,000","Over $50,000","Not sure"] }),
+      mkQ("cl_features", "Which features matter most to you? (select all that apply)", "checkbox", { options: ["Low cost","Portability","Precision control","Ease of cleaning","Data logging","Battery backup","Durability"] }),
+      mkQ("cl_package", "Which product package interests you most?", "radio", { options: ["PolyVent EDU – teaching only","PolyVent Research – small animal","PolyVent Veterinary – clinical veterinary use","Not sure yet"] }),
+      mkQ("cl_interest", "Interested in a low-cost alternative respiratory platform?", "radio", { options: ["Yes, very interested","Maybe, need more information","No, not currently"] }),
+      mkQ("cl_pilot", "Willing to participate in a pilot test?", "radio", { options: ["Yes","Maybe","No"] }),
+      mkQ("cl_followup", "Would you like to be contacted for a 15–20 min follow-up interview?", "radio", { options: ["Yes","No"] }),
+      mkQ("cl_comments", "Additional comments or specific needs", "textarea"),
+    ],
+  };
+
+  const STATUS_OPTIONS = ["New Lead","Contacted","Interview Scheduled","Pilot Discussion","Closed - Won","Closed - Lost"];
+  const PRIORITY_OPTIONS = ["High","Medium","Low"];
+  const STATUS_BADGE = {
+    "New Lead":"pv-badge-new","Contacted":"pv-badge-contacted","Interview Scheduled":"pv-badge-scheduled",
+    "Pilot Discussion":"pv-badge-pilot","Closed - Won":"pv-badge-closed","Closed - Lost":"pv-badge-lost"
+  };
+
+  const ADMIN_USERNAME = "admin";
+  const ADMIN_PASSWORD = "PolyVent2026!";
+
+  let currentUser = null; // { role: 'admin' | 'respondent', username, email }
+  let surveyMode = 'fill'; // 'fill' | 'edit' — admin-only toggle inside Take Survey tab
+  let inlineActiveSegmentTab = null;
+
+  let currentConfig = null;
+  let responsesCache = [];
+  let activeSegmentTab = null;
+
+  function toast(msg){
+    const t = document.getElementById('pvToast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('show'), 2400);
+  }
+  function uid(){
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2,9);
+  }
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  /* ---------------- storage ---------------- */
+  async function loadConfig(){
+    try{
+      const res = await window.storage.get(CONFIG_KEY, true);
+      if (res && res.value) return JSON.parse(res.value);
+    }catch(e){}
+    await window.storage.set(CONFIG_KEY, JSON.stringify(DEFAULT_CONFIG), true);
+    return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  }
+  async function saveConfig(cfg){ await window.storage.set(CONFIG_KEY, JSON.stringify(cfg), true); }
+
+  async function loadResponses(){
+    try{
+      const list = await window.storage.list(RESPONSE_PREFIX, true);
+      if (!list || !list.keys || !list.keys.length) return [];
+      const out = [];
+      for (const key of list.keys){
+        try{
+          const r = await window.storage.get(key, true);
+          if (r && r.value) out.push(JSON.parse(r.value));
+        }catch(e){}
+      }
+      out.sort((a,b) => (b.submittedAt||'').localeCompare(a.submittedAt||''));
+      return out;
+    }catch(e){ return []; }
+  }
+  async function saveResponse(rec){ await window.storage.set(RESPONSE_PREFIX + rec.id, JSON.stringify(rec), true); }
+  async function deleteResponse(id){ await window.storage.delete(RESPONSE_PREFIX + id, true); }
+
+  /* ---------------- login gate ---------------- */
+  document.querySelectorAll('[data-gate]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-gate]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('gateRespondent').style.display = btn.dataset.gate === 'respondent' ? '' : 'none';
+      document.getElementById('gateAdmin').style.display = btn.dataset.gate === 'admin' ? '' : 'none';
+    });
+  });
+
+  document.getElementById('gateRespondentBtn').addEventListener('click', () => {
+    const username = document.getElementById('gateUsername').value.trim();
+    const email = document.getElementById('gateEmail').value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const err = document.getElementById('gateRespondentError');
+    if (!username || !emailOk){ err.classList.add('show'); return; }
+    err.classList.remove('show');
+    currentUser = { role: 'respondent', username, email };
+    enterApp();
+  });
+
+  document.getElementById('gateAdminBtn').addEventListener('click', () => {
+    const u = document.getElementById('gateAdminUser').value.trim();
+    const p = document.getElementById('gateAdminPass').value;
+    const err = document.getElementById('gateAdminError');
+    if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD){
+      err.classList.remove('show');
+      currentUser = { role: 'admin', username: u };
+      enterApp();
+    } else {
+      err.classList.add('show');
+    }
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    currentUser = null;
+    surveyMode = 'fill';
+    document.getElementById('appBody').style.display = 'none';
+    document.getElementById('loginGate').style.display = '';
+    document.getElementById('pvShell').classList.add('pv-shell-narrow');
+    document.getElementById('gateUsername').value = '';
+    document.getElementById('gateEmail').value = '';
+    document.getElementById('gateAdminUser').value = '';
+    document.getElementById('gateAdminPass').value = '';
+  });
+
+  function enterApp(){
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('pvShell').classList.remove('pv-shell-narrow');
+    const appBody = document.getElementById('appBody');
+    appBody.style.display = '';
+    const isAdmin = currentUser.role === 'admin';
+    document.getElementById('tabBtnBuilder').style.display = isAdmin ? '' : 'none';
+    document.getElementById('tabBtnCrm').style.display = isAdmin ? '' : 'none';
+    document.getElementById('whoAmI').textContent = isAdmin ? `Admin · ${currentUser.username}` : `${currentUser.username} · ${currentUser.email}`;
+    // always land on Take Survey after login
+    document.querySelectorAll('.pv-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.pv-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelector('.pv-tab[data-tab="survey"]').classList.add('active');
+    document.getElementById('panel-survey').classList.add('active');
+    renderSurveyForm();
+  }
+
+  /* ---------------- top-level tabs ---------------- */
+  document.querySelectorAll('.pv-tab').forEach(btn=>{
+    btn.addEventListener('click', () => {
+      if ((btn.dataset.tab === 'builder' || btn.dataset.tab === 'crm') && (!currentUser || currentUser.role !== 'admin')) return;
+      document.querySelectorAll('.pv-tab').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.pv-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'crm') renderCrm();
+      if (btn.dataset.tab === 'builder') renderBuilder();
+      if (btn.dataset.tab === 'survey') { surveyMode='fill'; renderSurveyForm(); }
+    });
+  });
+
+  /* ---------------- helpers over config ---------------- */
+  function branchQuestion(){
+    return currentConfig.questions.find(q => q.id === currentConfig.branchQuestionId);
+  }
+  function segmentKeys(){
+    const bq = branchQuestion();
+    return bq && bq.options ? bq.options.slice() : Object.keys(currentConfig.segments || {});
+  }
+  function ensureSegmentsMatchBranch(){
+    const keys = segmentKeys();
+    currentConfig.segments = currentConfig.segments || {};
+    keys.forEach(k => { if (!currentConfig.segments[k]) currentConfig.segments[k] = { questions: [] }; });
+  }
+  function findQuestionLabel(id){
+    let q = currentConfig.questions.find(x=>x.id===id);
+    if (q) return q.label;
+    for (const k in currentConfig.segments){
+      q = (currentConfig.segments[k].questions||[]).find(x=>x.id===id);
+      if (q) return q.label;
+    }
+    q = (currentConfig.closingQuestions||[]).find(x=>x.id===id);
+    return q ? q.label : id;
+  }
+  function allSegmentQuestionsFlat(){
+    const seen = {}; const list = [];
+    for (const k in currentConfig.segments){
+      (currentConfig.segments[k].questions||[]).forEach(q => { if(!seen[q.id]){ seen[q.id]=1; list.push(q); } });
+    }
+    return list;
+  }
+
+  /* ================= SURVEY RENDER ================= */
+  function renderField(q, idx){
+    let html = `<div class="pv-field" data-qid="${q.id}">
+      <label class="pv-q">${idx}. ${escapeHtml(q.label)}${q.required ? '<span class="pv-req">*</span>' : ''}</label>`;
+    if (q.type === 'text'){
+      html += `<input class="pv-input" type="text" name="${q.id}" ${q.required?'required':''} />`;
+    } else if (q.type === 'textarea'){
+      html += `<textarea class="pv-input" name="${q.id}" ${q.required?'required':''}></textarea>`;
+    } else if (q.type === 'radio'){
+      html += '<div class="pv-options">' + (q.options||[]).map(opt =>
+        `<label class="pv-option-row"><input type="radio" name="${q.id}" value="${escapeHtml(opt)}" ${q.required?'required':''}/> ${escapeHtml(opt)}</label>`
+      ).join('') + '</div>';
+    } else if (q.type === 'checkbox'){
+      html += '<div class="pv-options">' + (q.options||[]).map(opt =>
+        `<label class="pv-option-row"><input type="checkbox" name="${q.id}" value="${escapeHtml(opt)}"/> ${escapeHtml(opt)}</label>`
+      ).join('') + '</div>';
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  function renderSurveyForm(){
+    document.getElementById('pvTitleText').textContent = currentConfig.title;
+    document.getElementById('pvSubText').textContent = 'Tailored by institution type — editable survey, live response capture, and a working CRM.';
+    const card = document.getElementById('surveyFormCard');
+    let n = 0;
+    let html = `<p style="font-size:13.5px;color:#3E4C47;line-height:1.6;margin-top:0;margin-bottom:22px;">${escapeHtml(currentConfig.description)}</p>`;
+    html += '<form id="pvSurveyForm">';
+    currentConfig.questions.forEach(q => { n++; html += renderField(q, n); });
+    html += `<div class="pv-branch-block" id="branchBlock" style="display:none;">
+      <div class="pv-branch-label">Tailored for your institution type</div>
+      <div id="branchFields"></div>
+    </div>`;
+    html += `<div id="closingFields"></div>`;
+    html += `<button type="submit" class="pv-btn pv-btn-primary">Submit response</button></form>`;
+    card.innerHTML = html;
+
+    renderClosingFields(n);
+
+    const bq = branchQuestion();
+    if (bq){
+      const radios = card.querySelectorAll(`input[name="${bq.id}"]`);
+      radios.forEach(r => r.addEventListener('change', (e) => renderBranchFields(e.target.value, n)));
+    }
+
+    document.getElementById('pvSurveyForm').addEventListener('submit', handleSubmit);
+  }
+
+  function renderBranchFields(segmentValue, commonCount){
+    const block = document.getElementById('branchBlock');
+    const container = document.getElementById('branchFields');
+    const seg = currentConfig.segments && currentConfig.segments[segmentValue];
+    if (!seg || !seg.questions || !seg.questions.length){
+      block.style.display = 'none';
+      container.innerHTML = '';
+      return;
+    }
+    block.style.display = '';
+    let n = commonCount;
+    let html = '';
+    seg.questions.forEach(q => { n++; html += renderField(q, n); });
+    container.innerHTML = html;
+  }
+
+  function renderClosingFields(commonCount){
+    const container = document.getElementById('closingFields');
+    let n = commonCount + 50; // offset so numbering never collides visually with branch section; recalculated below anyway
+    // simpler: just continue numbering after common; branch length unknown at initial paint, so recompute at submit time is unnecessary for numbering only
+    let html = '';
+    (currentConfig.closingQuestions||[]).forEach((q, i) => { html += renderField(q, '•'); });
+    container.innerHTML = html;
+  }
+
+  async function handleSubmit(e){
+    e.preventDefault();
+    const form = e.target;
+    const answers = {};
+    const bq = branchQuestion();
+    let segValue = '';
+
+    currentConfig.questions.forEach(q => { answers[q.id] = readField(form, q); });
+    if (bq) segValue = answers[bq.id] || '';
+
+    const seg = currentConfig.segments && currentConfig.segments[segValue];
+    if (seg){
+      seg.questions.forEach(q => { answers[q.id] = readField(form, q); });
+    }
+    (currentConfig.closingQuestions||[]).forEach(q => { answers[q.id] = readField(form, q); });
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true; submitBtn.textContent = 'Saving…';
+
+    const rec = {
+      id: uid(),
+      submittedAt: new Date().toISOString(),
+      segment: segValue,
+      answers,
+      loginUsername: currentUser ? currentUser.username : '',
+      loginEmail: currentUser ? currentUser.email || '' : '',
+      status: 'New Lead',
+      priority: 'Medium',
+      notes: '',
+      followUpDate: ''
+    };
+    try{
+      await saveResponse(rec);
+      toast('Response saved to CRM');
+      showThankYou();
+    }catch(err){
+      toast('Could not save — please try again');
+      submitBtn.disabled = false; submitBtn.textContent = 'Submit response';
+    }
+  }
+
+  function readField(form, q){
+    if (q.type === 'checkbox'){
+      return Array.from(form.querySelectorAll(`input[name="${q.id}"]:checked`)).map(el=>el.value).join('; ');
+    } else if (q.type === 'radio'){
+      const el = form.querySelector(`input[name="${q.id}"]:checked`);
+      return el ? el.value : '';
+    } else {
+      const el = form.querySelector(`[name="${q.id}"]`);
+      return el ? el.value : '';
+    }
+  }
+
+  function showThankYou(){
+    const card = document.getElementById('surveyFormCard');
+    const msg = currentConfig.thankYouMessage || DEFAULT_CONFIG.thankYouMessage;
+    card.innerHTML = `
+      <div class="pv-empty" style="padding:30px 20px;">
+        <div class="pv-wave">${WAVE_SVG(130,32,'#1C7A72')}</div>
+        <div class="pv-empty-title">Response received</div>
+        <div class="pv-empty-sub" style="max-width:440px;margin:6px auto 0;line-height:1.6;">${escapeHtml(msg)}</div>
+        <button class="pv-btn pv-btn-ghost" id="submitAnotherBtn" style="margin-top:18px;">Submit another response</button>
+      </div>`;
+    document.getElementById('submitAnotherBtn').addEventListener('click', renderSurveyForm);
+  }
+
+  /* ================= BUILDER ================= */
+  document.querySelectorAll('#builderSubtabs .pv-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      document.querySelectorAll('#builderSubtabs .pv-pill').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.pv-builder-section').forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');
+      document.getElementById('builder-' + p.dataset.section).classList.add('active');
+    });
+  });
+
+  function renderBuilder(){
+    document.getElementById('builderTitle').value = currentConfig.title;
+    document.getElementById('builderDesc').value = currentConfig.description;
+    document.getElementById('builderThanks').value = currentConfig.thankYouMessage || DEFAULT_CONFIG.thankYouMessage;
+
+    renderBranchSelect();
+    renderQuestionEditor('commonQuestionList', currentConfig.questions, { protectBranch: true });
+    renderQuestionEditor('closingQuestionList', currentConfig.closingQuestions, {});
+    renderSegmentTabs();
+  }
+
+  function renderBranchSelect(){
+    const sel = document.getElementById('branchQuestionSelect');
+    const radioQs = currentConfig.questions.filter(q => q.type === 'radio');
+    sel.innerHTML = radioQs.map(q => `<option value="${q.id}" ${q.id===currentConfig.branchQuestionId?'selected':''}>${escapeHtml(q.label)}</option>`).join('')
+      || `<option value="">Add a multiple-choice question first</option>`;
+    sel.onchange = () => {
+      currentConfig.branchQuestionId = sel.value;
+      ensureSegmentsMatchBranch();
+      renderSegmentTabs();
+    };
+  }
+
+  function renderSegmentTabs(){
+    ensureSegmentsMatchBranch();
+    const keys = segmentKeys();
+    const wrap = document.getElementById('segmentSubtabs');
+    if (!keys.length){
+      wrap.innerHTML = '';
+      document.getElementById('segmentQuestionList').innerHTML = `<div class="pv-empty"><div class="pv-empty-sub">Your branch question needs at least one option before you can add segment questions.</div></div>`;
+      return;
+    }
+    if (!activeSegmentTab || keys.indexOf(activeSegmentTab) === -1) activeSegmentTab = keys[0];
+    wrap.innerHTML = keys.map(k => `<button class="pv-pill ${k===activeSegmentTab?'active':''}" data-seg="${escapeHtml(k)}">${escapeHtml(k)}</button>`).join('');
+    wrap.querySelectorAll('.pv-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        collectSegmentEditorInto(activeSegmentTab);
+        activeSegmentTab = btn.dataset.seg;
+        renderSegmentTabs();
+      });
+    });
+    renderQuestionEditor('segmentQuestionList', currentConfig.segments[activeSegmentTab].questions, {});
+  }
+
+  function collectSegmentEditorInto(segKey){
+    if (!segKey || !currentConfig.segments[segKey]) return;
+    currentConfig.segments[segKey].questions = collectListFromDom('segmentQuestionList', currentConfig.segments[segKey].questions);
+  }
+
+  function renderQuestionEditor(containerId, arr, opts){
+    opts = opts || {};
+    const list = document.getElementById(containerId);
+    list.innerHTML = '';
+    arr.forEach((q, idx) => {
+      const isBranch = opts.protectBranch && q.id === currentConfig.branchQuestionId;
+      const div = document.createElement('div');
+      div.className = 'pv-qcard';
+      div.dataset.idx = idx;
+      div.dataset.qid = q.id;
+      div.innerHTML = `
+        <div class="pv-qcard-top">
+          <span class="pv-qnum">Q${idx+1}${isBranch ? ' · branch' : ''}</span>
+          <div class="pv-qcard-actions">
+            <button class="pv-icon-btn" data-act="up" title="Move up">&uarr;</button>
+            <button class="pv-icon-btn" data-act="down" title="Move down">&darr;</button>
+            <button class="pv-icon-btn" data-act="del" title="Delete" ${isBranch?'disabled':''}>&times;</button>
+          </div>
+        </div>
+        <div class="pv-field">
+          <label class="pv-q" style="font-size:12px;">Question text</label>
+          <input class="pv-input q-label" type="text" value="${escapeHtml(q.label)}" />
+        </div>
+        <div class="pv-row2">
+          <div class="pv-field">
+            <label class="pv-q" style="font-size:12px;">Field type</label>
+            <select class="pv-select q-type" ${isBranch?'disabled':''}>
+              <option value="text" ${q.type==='text'?'selected':''}>Short answer</option>
+              <option value="textarea" ${q.type==='textarea'?'selected':''}>Paragraph</option>
+              <option value="radio" ${q.type==='radio'?'selected':''}>Multiple choice</option>
+              <option value="checkbox" ${q.type==='checkbox'?'selected':''}>Checkboxes</option>
+            </select>
+          </div>
+          <div class="pv-field">
+            <label class="pv-q" style="font-size:12px;">Required?</label>
+            <select class="pv-select q-required">
+              <option value="no" ${!q.required?'selected':''}>Optional</option>
+              <option value="yes" ${q.required?'selected':''}>Required</option>
+            </select>
+          </div>
+        </div>
+        <div class="pv-field q-options-wrap" style="${(q.type==='radio'||q.type==='checkbox') ? '' : 'display:none;'} margin-bottom:0;">
+          <label class="pv-q" style="font-size:12px;">Options (one per line)${isBranch ? ' — these become your institution-type segments' : ''}</label>
+          <textarea class="pv-input q-options">${escapeHtml((q.options||[]).join('\\n'))}</textarea>
+        </div>
+      `;
+      list.appendChild(div);
+
+      div.querySelector('.q-type').addEventListener('change', (e) => {
+        div.querySelector('.q-options-wrap').style.display = (e.target.value === 'radio' || e.target.value === 'checkbox') ? '' : 'none';
+      });
+      div.querySelector('[data-act="del"]').addEventListener('click', () => {
+        if (isBranch) return;
+        arr.splice(idx, 1);
+        renderQuestionEditor(containerId, arr, opts);
+        if (containerId === 'commonQuestionList') renderBranchSelect();
+      });
+      div.querySelector('[data-act="up"]').addEventListener('click', () => {
+        if (idx === 0) return;
+        syncArrFromDom(containerId, arr);
+        [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
+        renderQuestionEditor(containerId, arr, opts);
+      });
+      div.querySelector('[data-act="down"]').addEventListener('click', () => {
+        syncArrFromDom(containerId, arr);
+        if (idx === arr.length - 1) return;
+        [arr[idx+1], arr[idx]] = [arr[idx], arr[idx+1]];
+        renderQuestionEditor(containerId, arr, opts);
+      });
+    });
+    if (!arr.length){
+      list.innerHTML = `<div class="pv-empty"><div class="pv-empty-sub">No questions here yet.</div></div>`;
+    }
+  }
+
+  function syncArrFromDom(containerId, arr){
+    const updated = collectListFromDom(containerId, arr);
+    arr.length = 0;
+    updated.forEach(q => arr.push(q));
+  }
+
+  function collectListFromDom(containerId, existingArr){
+    const cards = document.querySelectorAll('#' + containerId + ' .pv-qcard');
+    const out = [];
+    cards.forEach(card => {
+      const idx = card.dataset.idx;
+      const existing = existingArr[idx] || {};
+      const label = card.querySelector('.q-label').value || 'Untitled question';
+      const type = card.querySelector('.q-type').disabled ? existing.type : card.querySelector('.q-type').value;
+      const required = card.querySelector('.q-required').value === 'yes';
+      const optionsRaw = card.querySelector('.q-options') ? card.querySelector('.q-options').value : '';
+      const options = optionsRaw.split('\\n').map(s=>s.trim()).filter(Boolean);
+      out.push({
+        id: card.dataset.qid || existing.id || ('q_' + uid().slice(0,8)),
+        label, type, required,
+        options: (type==='radio'||type==='checkbox') ? options : undefined
+      });
+    });
+    return out;
+  }
+
+  document.querySelectorAll('[data-add]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const kind = btn.dataset.add;
+      const newQ = mkQ('q_' + uid().slice(0,8), 'New question', 'text', {});
+      if (kind === 'common'){
+        currentConfig.questions = collectListFromDom('commonQuestionList', currentConfig.questions);
+        currentConfig.questions.push(newQ);
+        renderQuestionEditor('commonQuestionList', currentConfig.questions, { protectBranch: true });
+        renderBranchSelect();
+      } else if (kind === 'closing'){
+        currentConfig.closingQuestions = collectListFromDom('closingQuestionList', currentConfig.closingQuestions);
+        currentConfig.closingQuestions.push(newQ);
+        renderQuestionEditor('closingQuestionList', currentConfig.closingQuestions, {});
+      } else if (kind === 'segment' && activeSegmentTab){
+        currentConfig.segments[activeSegmentTab].questions = collectListFromDom('segmentQuestionList', currentConfig.segments[activeSegmentTab].questions);
+        currentConfig.segments[activeSegmentTab].questions.push(newQ);
+        renderQuestionEditor('segmentQuestionList', currentConfig.segments[activeSegmentTab].questions, {});
+      }
+    });
+  });
+
+  document.getElementById('saveSurveyBtn').addEventListener('click', async () => {
+    currentConfig.title = document.getElementById('builderTitle').value || 'Untitled Survey';
+    currentConfig.description = document.getElementById('builderDesc').value || '';
+    currentConfig.thankYouMessage = document.getElementById('builderThanks').value || DEFAULT_CONFIG.thankYouMessage;
+    currentConfig.questions = collectListFromDom('commonQuestionList', currentConfig.questions);
+    currentConfig.closingQuestions = collectListFromDom('closingQuestionList', currentConfig.closingQuestions);
+    if (activeSegmentTab && currentConfig.segments[activeSegmentTab]){
+      currentConfig.segments[activeSegmentTab].questions = collectListFromDom('segmentQuestionList', currentConfig.segments[activeSegmentTab].questions);
+    }
+    ensureSegmentsMatchBranch();
+
+    const status = document.getElementById('builderSaveStatus');
+    status.textContent = 'Saving…';
+    try{
+      await saveConfig(currentConfig);
+      status.textContent = 'Saved just now';
+      toast('Survey updated');
+      renderSurveyForm();
+      renderBuilder();
+    }catch(e){
+      status.textContent = 'Could not save — try again';
+    }
+  });
+
+  /* ================= CRM ================= */
+  function badgeFor(status){
+    return `<span class="pv-badge ${STATUS_BADGE[status] || 'pv-badge-new'}">${escapeHtml(status||'New Lead')}</span>`;
+  }
+  function guessField(answers, keywords){
+    for (const q of currentConfig.questions){
+      if (keywords.some(w => q.label.toLowerCase().includes(w))) return answers[q.id];
+    }
+    return '';
+  }
+  function displayName(rec){ return guessField(rec.answers, ['name']) || 'Unnamed respondent'; }
+  function displayInstitution(rec){ return guessField(rec.answers, ['institution','organization']) || '—'; }
+  function displayCountry(rec){ return guessField(rec.answers, ['country']) || '—'; }
+
+  async function renderCrm(){
+    const wrap = document.getElementById('crmTableWrap');
+    wrap.innerHTML = `<div class="pv-empty"><div class="pv-empty-sub">Loading responses…</div></div>`;
+    responsesCache = await loadResponses();
+    populateSegmentFilter();
+    renderStats();
+    drawCrmTable();
+  }
+
+  function populateSegmentFilter(){
+    const sel = document.getElementById('crmSegmentFilter');
+    const cur = sel.value;
+    const keys = segmentKeys();
+    sel.innerHTML = '<option value="">All institution types</option>' + keys.map(k => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join('');
+    sel.value = cur;
+  }
+
+  function renderStats(){
+    const el = document.getElementById('crmStats');
+    const total = responsesCache.length;
+    const byStage = {}; STATUS_OPTIONS.forEach(s => byStage[s] = 0);
+    responsesCache.forEach(r => { byStage[r.status] = (byStage[r.status]||0) + 1; });
+    const won = byStage['Closed - Won'] || 0;
+    const pipeline = total - (byStage['Closed - Won']||0) - (byStage['Closed - Lost']||0);
+    el.innerHTML = `
+      <div class="pv-stat"><div class="pv-stat-num">${total}</div><div class="pv-stat-label">Total responses</div></div>
+      <div class="pv-stat"><div class="pv-stat-num">${pipeline}</div><div class="pv-stat-label">Active pipeline</div></div>
+      <div class="pv-stat"><div class="pv-stat-num">${byStage['Interview Scheduled']||0}</div><div class="pv-stat-label">Interviews scheduled</div></div>
+      <div class="pv-stat"><div class="pv-stat-num">${won}</div><div class="pv-stat-label">Closed — won</div></div>
+    `;
+  }
+
+  function drawCrmTable(){
+    const wrap = document.getElementById('crmTableWrap');
+    const search = document.getElementById('crmSearch').value.trim().toLowerCase();
+    const statusFilter = document.getElementById('crmStatusFilter').value;
+    const segFilter = document.getElementById('crmSegmentFilter').value;
+
+    let rows = responsesCache.filter(r => {
+      if (statusFilter && r.status !== statusFilter) return false;
+      if (segFilter && r.segment !== segFilter) return false;
+      if (!search) return true;
+      const hay = (displayName(r) + ' ' + displayInstitution(r) + ' ' + displayCountry(r)).toLowerCase();
+      return hay.includes(search);
+    });
+
+    if (!rows.length){
+      wrap.innerHTML = `<div class="pv-empty">
+        <div class="pv-wave">${WAVE_SVG(120,30,'#B9C7C1')}</div>
+        <div class="pv-empty-title">No responses yet</div>
+        <div class="pv-empty-sub">Share the "Take Survey" tab, or clear filters to see existing leads.</div>
+      </div>`;
+      return;
+    }
+
+    let html = `<div class="pv-table-wrap"><table class="pv-table"><thead><tr>
+      <th>Respondent</th><th>Submitted</th><th>Stage</th><th>Priority</th><th>Follow-up</th><th>Notes</th><th></th><th></th>
+    </tr></thead><tbody>`;
+
+    rows.forEach(r => {
+      const date = r.submittedAt ? new Date(r.submittedAt).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : '—';
+      const seg = currentConfig.segments[r.segment];
+      const segQs = seg ? seg.questions : [];
+      html += `<tr data-id="${r.id}">
+        <td><div class="pv-cell-name">${escapeHtml(displayName(r))}</div><div class="pv-cell-sub">${escapeHtml(displayInstitution(r))} · ${escapeHtml(displayCountry(r))}</div>${r.segment?`<div class="pv-segment-tag">${escapeHtml(r.segment)}</div>`:''}${r.loginUsername?`<div class="pv-cell-sub">Logged in as ${escapeHtml(r.loginUsername)} (${escapeHtml(r.loginEmail)})</div>`:''}</td>
+        <td class="pv-cell-sub">${date}</td>
+        <td><select class="pv-mini-select crm-status">${STATUS_OPTIONS.map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
+        <td><select class="pv-mini-select crm-priority">${PRIORITY_OPTIONS.map(p=>`<option value="${p}" ${r.priority===p?'selected':''}>${p}</option>`).join('')}</select></td>
+        <td><input type="date" class="pv-mini-input crm-followup" value="${escapeHtml(r.followUpDate||'')}"/></td>
+        <td><input type="text" class="pv-mini-input crm-notes" value="${escapeHtml(r.notes||'')}" placeholder="Add a note…"/></td>
+        <td><button class="pv-detail-toggle">Details</button></td>
+        <td><button class="pv-btn pv-btn-danger crm-delete">Delete</button></td>
+      </tr>
+      <tr class="pv-detail" data-detail-for="${r.id}"><td colspan="8">
+        <div class="pv-detail-inner">
+          <div class="pv-detail-group-label">General</div>
+          ${currentConfig.questions.map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '—')}</div>`).join('')}
+          ${segQs.length ? `<div class="pv-detail-group-label">${escapeHtml(r.segment)}</div>` + segQs.map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '—')}</div>`).join('') : ''}
+          <div class="pv-detail-group-label">General (continued)</div>
+          ${(currentConfig.closingQuestions||[]).map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '—')}</div>`).join('')}
+        </div>
+      </td></tr>`;
+    });
+    html += '</tbody></table></div>';
+    html += `<div class="pv-footer-note">Showing ${rows.length} of ${responsesCache.length} responses</div>`;
+    wrap.innerHTML = html;
+
+    wrap.querySelectorAll('tbody tr[data-id]').forEach(tr => {
+      const id = tr.dataset.id;
+      const rec = responsesCache.find(r => r.id === id);
+      tr.querySelector('.crm-status').addEventListener('change', async (e) => { rec.status = e.target.value; await saveResponse(rec); renderStats(); toast('Stage updated'); });
+      tr.querySelector('.crm-priority').addEventListener('change', async (e) => { rec.priority = e.target.value; await saveResponse(rec); toast('Priority updated'); });
+      tr.querySelector('.crm-followup').addEventListener('change', async (e) => { rec.followUpDate = e.target.value; await saveResponse(rec); toast('Follow-up date saved'); });
+      let notesTimer;
+      tr.querySelector('.crm-notes').addEventListener('input', (e) => {
+        rec.notes = e.target.value;
+        clearTimeout(notesTimer);
+        notesTimer = setTimeout(async () => { await saveResponse(rec); }, 700);
+      });
+      tr.querySelector('.pv-detail-toggle').addEventListener('click', () => {
+        wrap.querySelector(`.pv-detail[data-detail-for="${id}"]`).classList.toggle('open');
+      });
+      tr.querySelector('.crm-delete').addEventListener('click', async () => {
+        if (!confirm('Delete this response? This cannot be undone.')) return;
+        await deleteResponse(id);
+        responsesCache = responsesCache.filter(r => r.id !== id);
+        renderStats(); drawCrmTable(); toast('Response deleted');
+      });
+    });
+  }
+
+  document.getElementById('crmSearch').addEventListener('input', drawCrmTable);
+  document.getElementById('crmStatusFilter').addEventListener('change', drawCrmTable);
+  document.getElementById('crmSegmentFilter').addEventListener('change', drawCrmTable);
+  document.getElementById('refreshCrmBtn').addEventListener('click', renderCrm);
+
+  document.getElementById('exportCsvBtn').addEventListener('click', () => {
+    if (!responsesCache.length){ toast('No responses to export'); return; }
+    const segQCols = allSegmentQuestionsFlat();
+    const allQs = [...currentConfig.questions, ...segQCols, ...(currentConfig.closingQuestions||[])];
+    const headers = ['Submitted', 'Logged in as', 'Login Email', 'Institution Type (segment)', ...allQs.map(q=>q.label), 'Stage', 'Priority', 'Follow-up Date', 'Notes'];
+    const csvEsc = (v) => `"${String(v==null?'':v).replace(/"/g,'""')}"`;
+    const lines = [headers.map(csvEsc).join(',')];
+    responsesCache.forEach(r => {
+      const row = [r.submittedAt || '', r.loginUsername || '', r.loginEmail || '', r.segment || '', ...allQs.map(q => r.answers[q.id] || ''), r.status||'', r.priority||'', r.followUpDate||'', r.notes||''];
+      lines.push(row.map(csvEsc).join(','));
+    });
+    const blob = new Blob([lines.join('\\n')], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'polyvent_crm_export.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('CSV downloaded');
+  });
+
+  /* ================= INLINE ADMIN EDITOR (inside Take Survey tab) ================= */
+  function renderInlineBuilder(){
+    const card = document.getElementById('surveyFormCard');
+    card.innerHTML = `
+      <div class="pv-subtabs" id="ivSubtabs">
+        <button class="pv-pill active" data-section="general">General</button>
+        <button class="pv-pill" data-section="common">Everyone (start)</button>
+        <button class="pv-pill" data-section="segments">By Institution Type</button>
+        <button class="pv-pill" data-section="closing">Everyone (end)</button>
+      </div>
+      <div class="pv-builder-section active" id="iv-general">
+        <div class="pv-field"><label class="pv-q">Survey title</label><input class="pv-input" id="ivTitle" type="text" /></div>
+        <div class="pv-field"><label class="pv-q">Intro / description</label><textarea class="pv-input" id="ivDesc"></textarea></div>
+        <div class="pv-field" style="margin-bottom:0;"><label class="pv-q">Thank-you message</label><textarea class="pv-input" id="ivThanks"></textarea></div>
+      </div>
+      <div class="pv-builder-section" id="iv-common">
+        <div class="pv-card" style="padding-bottom:10px;">
+          <div class="pv-field" style="margin-bottom:0;">
+            <label class="pv-q" style="font-size:13px;">Branch on this question</label>
+            <select class="pv-select" id="ivBranchSelect"></select>
+          </div>
+        </div>
+        <div id="ivCommonList"></div>
+        <button class="pv-btn pv-btn-ghost" id="ivAddCommon">+ Add question</button>
+      </div>
+      <div class="pv-builder-section" id="iv-segments">
+        <div class="pv-subtabs" id="ivSegmentSubtabs"></div>
+        <div id="ivSegmentList"></div>
+        <button class="pv-btn pv-btn-ghost" id="ivAddSegment">+ Add question to this segment</button>
+      </div>
+      <div class="pv-builder-section" id="iv-closing">
+        <div id="ivClosingList"></div>
+        <button class="pv-btn pv-btn-ghost" id="ivAddClosing">+ Add question</button>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px;align-items:center;">
+        <button class="pv-btn pv-btn-primary" id="ivSaveBtn">Save changes</button>
+        <span id="ivSaveStatus" class="pv-footer-note" style="margin-top:0;"></span>
+      </div>
+    `;
+
+    document.getElementById('ivTitle').value = currentConfig.title;
+    document.getElementById('ivDesc').value = currentConfig.description;
+    document.getElementById('ivThanks').value = currentConfig.thankYouMessage || DEFAULT_CONFIG.thankYouMessage;
+
+    document.querySelectorAll('#ivSubtabs .pv-pill').forEach(p => {
+      p.addEventListener('click', () => {
+        document.querySelectorAll('#ivSubtabs .pv-pill').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('#surveyFormCard .pv-builder-section').forEach(x=>x.classList.remove('active'));
+        p.classList.add('active');
+        document.getElementById('iv-' + p.dataset.section).classList.add('active');
+      });
+    });
+
+    renderIvBranchSelect();
+    renderQuestionEditor('ivCommonList', currentConfig.questions, { protectBranch: true });
+    renderQuestionEditor('ivClosingList', currentConfig.closingQuestions, {});
+    renderIvSegmentTabs();
+
+    document.getElementById('ivAddCommon').addEventListener('click', () => {
+      currentConfig.questions = collectListFromDom('ivCommonList', currentConfig.questions);
+      currentConfig.questions.push(mkQ('q_' + uid().slice(0,8), 'New question', 'text', {}));
+      renderQuestionEditor('ivCommonList', currentConfig.questions, { protectBranch: true });
+      renderIvBranchSelect();
+    });
+    document.getElementById('ivAddClosing').addEventListener('click', () => {
+      currentConfig.closingQuestions = collectListFromDom('ivClosingList', currentConfig.closingQuestions);
+      currentConfig.closingQuestions.push(mkQ('q_' + uid().slice(0,8), 'New question', 'text', {}));
+      renderQuestionEditor('ivClosingList', currentConfig.closingQuestions, {});
+    });
+    document.getElementById('ivAddSegment').addEventListener('click', () => {
+      if (!inlineActiveSegmentTab) return;
+      currentConfig.segments[inlineActiveSegmentTab].questions = collectListFromDom('ivSegmentList', currentConfig.segments[inlineActiveSegmentTab].questions);
+      currentConfig.segments[inlineActiveSegmentTab].questions.push(mkQ('q_' + uid().slice(0,8), 'New question', 'text', {}));
+      renderQuestionEditor('ivSegmentList', currentConfig.segments[inlineActiveSegmentTab].questions, {});
+    });
+
+    document.getElementById('ivSaveBtn').addEventListener('click', async () => {
+      currentConfig.title = document.getElementById('ivTitle').value || 'Untitled Survey';
+      currentConfig.description = document.getElementById('ivDesc').value || '';
+      currentConfig.thankYouMessage = document.getElementById('ivThanks').value || DEFAULT_CONFIG.thankYouMessage;
+      currentConfig.questions = collectListFromDom('ivCommonList', currentConfig.questions);
+      currentConfig.closingQuestions = collectListFromDom('ivClosingList', currentConfig.closingQuestions);
+      if (inlineActiveSegmentTab && currentConfig.segments[inlineActiveSegmentTab]){
+        currentConfig.segments[inlineActiveSegmentTab].questions = collectListFromDom('ivSegmentList', currentConfig.segments[inlineActiveSegmentTab].questions);
+      }
+      ensureSegmentsMatchBranch();
+      const status = document.getElementById('ivSaveStatus');
+      status.textContent = 'Saving…';
+      try{
+        await saveConfig(currentConfig);
+        status.textContent = 'Saved just now';
+        toast('Survey updated');
+      }catch(e){
+        status.textContent = 'Could not save — try again';
+      }
+    });
+  }
+
+  function renderIvBranchSelect(){
+    const sel = document.getElementById('ivBranchSelect');
+    const radioQs = currentConfig.questions.filter(q => q.type === 'radio');
+    sel.innerHTML = radioQs.map(q => `<option value="${q.id}" ${q.id===currentConfig.branchQuestionId?'selected':''}>${escapeHtml(q.label)}</option>`).join('')
+      || `<option value="">Add a multiple-choice question first</option>`;
+    sel.onchange = () => {
+      currentConfig.branchQuestionId = sel.value;
+      ensureSegmentsMatchBranch();
+      renderIvSegmentTabs();
+    };
+  }
+
+  function renderIvSegmentTabs(){
+    ensureSegmentsMatchBranch();
+    const keys = segmentKeys();
+    const wrap = document.getElementById('ivSegmentSubtabs');
+    if (!keys.length){
+      wrap.innerHTML = '';
+      document.getElementById('ivSegmentList').innerHTML = `<div class="pv-empty"><div class="pv-empty-sub">Your branch question needs at least one option first.</div></div>`;
+      return;
+    }
+    if (!inlineActiveSegmentTab || keys.indexOf(inlineActiveSegmentTab) === -1) inlineActiveSegmentTab = keys[0];
+    wrap.innerHTML = keys.map(k => `<button class="pv-pill ${k===inlineActiveSegmentTab?'active':''}" data-seg="${escapeHtml(k)}">${escapeHtml(k)}</button>`).join('');
+    wrap.querySelectorAll('.pv-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (inlineActiveSegmentTab && currentConfig.segments[inlineActiveSegmentTab]){
+          currentConfig.segments[inlineActiveSegmentTab].questions = collectListFromDom('ivSegmentList', currentConfig.segments[inlineActiveSegmentTab].questions);
+        }
+        inlineActiveSegmentTab = btn.dataset.seg;
+        renderIvSegmentTabs();
+      });
+    });
+    renderQuestionEditor('ivSegmentList', currentConfig.segments[inlineActiveSegmentTab].questions, {});
+  }
+
+  /* ---------------- init ---------------- */
+  async function init(){
+    try{ currentConfig = await loadConfig(); }
+    catch(e){ currentConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG)); }
+    ensureSegmentsMatchBranch();
+  }
+  init();
+
+})();
+</script>
