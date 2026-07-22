@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PolyVent Market Assessment</title>
 <style>
   :root{
     --ink:#1B2421;
@@ -157,6 +163,8 @@
   .pv-who{font-family:var(--mono);}
   .pv-logout{background:none;border:none;color:var(--teal-500);text-decoration:underline;cursor:pointer;font-size:12px;}
 </style>
+</head>
+<body>
 
 <div class="pv-root">
   <div class="pv-shell pv-shell-narrow" id="pvShell">
@@ -165,7 +173,7 @@
       <div class="pv-title-block">
         <span class="pv-eyebrow">Market Research Instrument</span>
         <h1 class="pv-title" id="pvTitleText">Quick Check-In</h1>
-        <div class="pv-sub" id="pvSubText">Tailored by institution type — editable survey, live response capture, and a working CRM.</div>
+        <div class="pv-sub" id="pvSubText">Tailored by institution type - editable survey, live response capture, and a working CRM.</div>
       </div>
       <div class="pv-wave" id="pvHeaderWave"></div>
     </div>
@@ -178,7 +186,7 @@
           <div class="pv-gate-icon" id="gateIconRespondent"></div>
           <span class="pv-gate-eyebrow">Market Research Instrument</span>
           <div class="pv-gate-title">PolyVent Market Assessment</div>
-          <div class="pv-gate-sub">Just your name and email — this is saved with your response so our team can follow up with you directly.</div>
+          <div class="pv-gate-sub">Just your name and email - this is saved with your response so our team can follow up with you directly.</div>
           <div class="pv-field">
             <label class="pv-q">Your name / username</label>
             <input class="pv-input" id="gateUsername" type="text" placeholder="e.g. Jane Smith" />
@@ -193,7 +201,7 @@
         </div>
 
         <div class="pv-gate-card" id="gateAdmin" style="display:none;">
-          <button class="pv-gate-back" id="showRespondentLink" type="button">&larr; Back</button>
+          <button class="pv-gate-back" id="showRespondentLink" type="button">Back</button>
           <div class="pv-gate-icon" id="gateIconAdmin"></div>
           <span class="pv-gate-eyebrow">Administrator Access</span>
           <div class="pv-gate-title">Admin Login</div>
@@ -233,7 +241,7 @@
           <span>Questions adapt to institution type, and answers save straight into the CRM tab.</span>
         </div>
         <div class="pv-card" id="surveyFormCard">
-          <div id="surveyLoading" class="pv-empty"><div class="pv-empty-sub">Loading survey…</div></div>
+          <div id="surveyLoading" class="pv-empty"><div class="pv-empty-sub">Loading survey...</div></div>
         </div>
       </div>
 
@@ -264,7 +272,7 @@
       </div>
 
       <div class="pv-builder-section" id="builder-common">
-        <div class="pv-section-note">These questions appear at the top, before branching. One of them (a multiple-choice question) must be marked as the <b>branch question</b> — its answer decides which tailored question set appears next.</div>
+        <div class="pv-section-note">These questions appear at the top, before branching. One of them (a multiple-choice question) must be marked as the <b>branch question</b> - its answer decides which tailored question set appears next.</div>
         <div class="pv-card" style="padding-bottom:10px;">
           <div class="pv-field" style="margin-bottom:0;">
             <label class="pv-q" style="font-size:13px;">Branch on this question</label>
@@ -276,14 +284,14 @@
       </div>
 
       <div class="pv-builder-section" id="builder-segments">
-        <div class="pv-section-note">Each institution type below gets its own follow-up questions — tailored to that audience (university lab, veterinary clinic, hospital, CRO, industry, etc). Segments come from the options on your branch question.</div>
+        <div class="pv-section-note">Each institution type below gets its own follow-up questions - tailored to that audience (university lab, veterinary clinic, hospital, CRO, industry, etc). Segments come from the options on your branch question.</div>
         <div class="pv-subtabs" id="segmentSubtabs"></div>
         <div id="segmentQuestionList"></div>
         <button class="pv-btn pv-btn-ghost" data-add="segment">+ Add question to this segment</button>
       </div>
 
       <div class="pv-builder-section" id="builder-closing">
-        <div class="pv-section-note">These questions appear last, for every respondent regardless of institution type — good for budget, feature priorities, and interest level.</div>
+        <div class="pv-section-note">These questions appear last, for every respondent regardless of institution type - good for budget, feature priorities, and interest level.</div>
         <div id="closingQuestionList"></div>
         <button class="pv-btn pv-btn-ghost" data-add="closing">+ Add question</button>
       </div>
@@ -298,7 +306,7 @@
     <div class="pv-panel" id="panel-crm">
       <div class="pv-stats" id="crmStats"></div>
       <div class="pv-toolbar">
-        <input type="text" class="pv-input" id="crmSearch" placeholder="Search name, institution, country…" />
+        <input type="text" class="pv-input" id="crmSearch" placeholder="Search name, institution, country..." />
         <select class="pv-select" id="crmSegmentFilter"><option value="">All institution types</option></select>
         <select class="pv-select" id="crmStatusFilter">
           <option value="">All stages</option>
@@ -348,8 +356,8 @@
 
   const DEFAULT_CONFIG = {
     title: "PolyVent Global Market Assessment",
-    description: "Thank you for considering participation in our Global Respiratory Education & Research Market Assessment. This short instrument (10–15 minutes) adapts to your institution type so we only ask what's relevant to you.",
-    thankYouMessage: "Thank you — your response has been recorded. We truly appreciate you taking the time to share your perspective. If you indicated interest in a follow-up conversation, a member of our team will be in touch shortly.",
+    description: "Thank you for considering participation in our Global Respiratory Education & Research Market Assessment. This short instrument (10-15 minutes) adapts to your institution type so we only ask what's relevant to you.",
+    thankYouMessage: "Thank you - your response has been recorded. We truly appreciate you taking the time to share your perspective. If you indicated interest in a follow-up conversation, a member of our team will be in touch shortly.",
     branchQuestionId: "q_type",
     questions: [
       mkQ("q_name", "Full name", "text", { required: true }),
@@ -380,7 +388,7 @@
       [SEG_HOSP]: { questions: [
         mkQ("h_dept", "Which department are you responding for?", "radio", { options: ["ICU / Critical care","Anesthesia","Respiratory therapy","Simulation / training center","Other"] }),
         mkQ("h_fleet", "How many ventilators does your department currently operate?", "text"),
-        mkQ("h_cycle", "What is your typical ventilator replacement cycle?", "radio", { options: ["1–2 years","3–5 years","6–10 years","10+ years","Not sure"] }),
+        mkQ("h_cycle", "What is your typical ventilator replacement cycle?", "radio", { options: ["1-2 years","3-5 years","6-10 years","10+ years","Not sure"] }),
         mkQ("h_approver", "Who approves capital equipment purchases at your hospital?", "radio", { options: ["I do","Department head","Biomedical engineering","Procurement / administration","Other"] }),
         mkQ("h_grade", "Would you be more interested in a clinical-grade device or a training/simulation device?", "radio", { options: ["Clinical-grade","Training / simulation","Both"] }),
       ]},
@@ -406,12 +414,12 @@
       ]},
     },
     closingQuestions: [
-      mkQ("cl_budget", "Typical budget range for a single ventilator unit", "radio", { options: ["Under $5,000","$5,000 – $15,000","$15,000 – $30,000","$30,000 – $50,000","Over $50,000","Not sure"] }),
+      mkQ("cl_budget", "Typical budget range for a single ventilator unit", "radio", { options: ["Under $5,000","$5,000 - $15,000","$15,000 - $30,000","$30,000 - $50,000","Over $50,000","Not sure"] }),
       mkQ("cl_features", "Which features matter most to you? (select all that apply)", "checkbox", { options: ["Low cost","Portability","Precision control","Ease of cleaning","Data logging","Battery backup","Durability"] }),
-      mkQ("cl_package", "Which product package interests you most?", "radio", { options: ["PolyVent EDU – teaching only","PolyVent Research – small animal","PolyVent Veterinary – clinical veterinary use","Not sure yet"] }),
+      mkQ("cl_package", "Which product package interests you most?", "radio", { options: ["PolyVent EDU - teaching only","PolyVent Research - small animal","PolyVent Veterinary - clinical veterinary use","Not sure yet"] }),
       mkQ("cl_interest", "Interested in a low-cost alternative respiratory platform?", "radio", { options: ["Yes, very interested","Maybe, need more information","No, not currently"] }),
       mkQ("cl_pilot", "Willing to participate in a pilot test?", "radio", { options: ["Yes","Maybe","No"] }),
-      mkQ("cl_followup", "Would you like to be contacted for a 15–20 min follow-up interview?", "radio", { options: ["Yes","No"] }),
+      mkQ("cl_followup", "Would you like to be contacted for a 15-20 min follow-up interview?", "radio", { options: ["Yes","No"] }),
       mkQ("cl_comments", "Additional comments or specific needs", "textarea"),
     ],
   };
@@ -427,7 +435,7 @@
   const ADMIN_PASSWORD = "PolyVent2026!";
 
   let currentUser = null; // { role: 'admin' | 'respondent', username, email }
-  let surveyMode = 'fill'; // 'fill' | 'edit' — admin-only toggle inside Take Survey tab
+  let surveyMode = 'fill'; // 'fill' | 'edit' - admin-only toggle inside Take Survey tab
   let inlineActiveSegmentTab = null;
 
   let currentConfig = null;
@@ -541,7 +549,7 @@
     const isAdmin = currentUser.role === 'admin';
     document.getElementById('tabBtnBuilder').style.display = isAdmin ? '' : 'none';
     document.getElementById('tabBtnCrm').style.display = isAdmin ? '' : 'none';
-    document.getElementById('whoAmI').textContent = isAdmin ? `Admin · ${currentUser.username}` : `${currentUser.username} · ${currentUser.email}`;
+    document.getElementById('whoAmI').textContent = isAdmin ? `Admin - ${currentUser.username}` : `${currentUser.username} - ${currentUser.email}`;
     // always land on Take Survey after login
     document.querySelectorAll('.pv-tab').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('.pv-panel').forEach(p=>p.classList.remove('active'));
@@ -618,7 +626,7 @@
 
   function renderSurveyForm(){
     document.getElementById('pvTitleText').textContent = currentConfig.title;
-    document.getElementById('pvSubText').textContent = 'Tailored by institution type — editable survey, live response capture, and a working CRM.';
+    document.getElementById('pvSubText').textContent = 'Tailored by institution type - editable survey, live response capture, and a working CRM.';
     const card = document.getElementById('surveyFormCard');
     let n = 0;
     let html = `<p style="font-size:13.5px;color:#3E4C47;line-height:1.6;margin-top:0;margin-bottom:22px;">${escapeHtml(currentConfig.description)}</p>`;
@@ -664,7 +672,7 @@
     let n = commonCount + 50; // offset so numbering never collides visually with branch section; recalculated below anyway
     // simpler: just continue numbering after common; branch length unknown at initial paint, so recompute at submit time is unnecessary for numbering only
     let html = '';
-    (currentConfig.closingQuestions||[]).forEach((q, i) => { html += renderField(q, '•'); });
+    (currentConfig.closingQuestions||[]).forEach((q, i) => { html += renderField(q, '*'); });
     container.innerHTML = html;
   }
 
@@ -685,7 +693,7 @@
     (currentConfig.closingQuestions||[]).forEach(q => { answers[q.id] = readField(form, q); });
 
     const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true; submitBtn.textContent = 'Saving…';
+    submitBtn.disabled = true; submitBtn.textContent = 'Saving...';
 
     const rec = {
       id: uid(),
@@ -704,7 +712,7 @@
       toast('Response saved to CRM');
       showThankYou();
     }catch(err){
-      toast('Could not save — please try again');
+      toast('Could not save - please try again');
       submitBtn.disabled = false; submitBtn.textContent = 'Submit response';
     }
   }
@@ -805,7 +813,7 @@
       div.dataset.qid = q.id;
       div.innerHTML = `
         <div class="pv-qcard-top">
-          <span class="pv-qnum">Q${idx+1}${isBranch ? ' · branch' : ''}</span>
+          <span class="pv-qnum">Q${idx+1}${isBranch ? ' - branch' : ''}</span>
           <div class="pv-qcard-actions">
             <button class="pv-icon-btn" data-act="up" title="Move up">&uarr;</button>
             <button class="pv-icon-btn" data-act="down" title="Move down">&darr;</button>
@@ -835,7 +843,7 @@
           </div>
         </div>
         <div class="pv-field q-options-wrap" style="${(q.type==='radio'||q.type==='checkbox') ? '' : 'display:none;'} margin-bottom:0;">
-          <label class="pv-q" style="font-size:12px;">Options (one per line)${isBranch ? ' — these become your institution-type segments' : ''}</label>
+          <label class="pv-q" style="font-size:12px;">Options (one per line)${isBranch ? ' - these become your institution-type segments' : ''}</label>
           <textarea class="pv-input q-options">${escapeHtml((q.options||[]).join('\\n'))}</textarea>
         </div>
       `;
@@ -927,7 +935,7 @@
     ensureSegmentsMatchBranch();
 
     const status = document.getElementById('builderSaveStatus');
-    status.textContent = 'Saving…';
+    status.textContent = 'Saving...';
     try{
       await saveConfig(currentConfig);
       status.textContent = 'Saved just now';
@@ -935,7 +943,7 @@
       renderSurveyForm();
       renderBuilder();
     }catch(e){
-      status.textContent = 'Could not save — try again';
+      status.textContent = 'Could not save - try again';
     }
   });
 
@@ -950,12 +958,12 @@
     return '';
   }
   function displayName(rec){ return guessField(rec.answers, ['name']) || 'Unnamed respondent'; }
-  function displayInstitution(rec){ return guessField(rec.answers, ['institution','organization']) || '—'; }
-  function displayCountry(rec){ return guessField(rec.answers, ['country']) || '—'; }
+  function displayInstitution(rec){ return guessField(rec.answers, ['institution','organization']) || '-'; }
+  function displayCountry(rec){ return guessField(rec.answers, ['country']) || '-'; }
 
   async function renderCrm(){
     const wrap = document.getElementById('crmTableWrap');
-    wrap.innerHTML = `<div class="pv-empty"><div class="pv-empty-sub">Loading responses…</div></div>`;
+    wrap.innerHTML = `<div class="pv-empty"><div class="pv-empty-sub">Loading responses...</div></div>`;
     responsesCache = await loadResponses();
     populateSegmentFilter();
     renderStats();
@@ -981,7 +989,7 @@
       <div class="pv-stat"><div class="pv-stat-num">${total}</div><div class="pv-stat-label">Total responses</div></div>
       <div class="pv-stat"><div class="pv-stat-num">${pipeline}</div><div class="pv-stat-label">Active pipeline</div></div>
       <div class="pv-stat"><div class="pv-stat-num">${byStage['Interview Scheduled']||0}</div><div class="pv-stat-label">Interviews scheduled</div></div>
-      <div class="pv-stat"><div class="pv-stat-num">${won}</div><div class="pv-stat-label">Closed — won</div></div>
+      <div class="pv-stat"><div class="pv-stat-num">${won}</div><div class="pv-stat-label">Closed - won</div></div>
     `;
   }
 
@@ -1013,26 +1021,26 @@
     </tr></thead><tbody>`;
 
     rows.forEach(r => {
-      const date = r.submittedAt ? new Date(r.submittedAt).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : '—';
+      const date = r.submittedAt ? new Date(r.submittedAt).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : '-';
       const seg = currentConfig.segments[r.segment];
       const segQs = seg ? seg.questions : [];
       html += `<tr data-id="${r.id}">
-        <td><div class="pv-cell-name">${escapeHtml(displayName(r))}</div><div class="pv-cell-sub">${escapeHtml(displayInstitution(r))} · ${escapeHtml(displayCountry(r))}</div>${r.segment?`<div class="pv-segment-tag">${escapeHtml(r.segment)}</div>`:''}${r.loginUsername?`<div class="pv-cell-sub">Logged in as ${escapeHtml(r.loginUsername)} (${escapeHtml(r.loginEmail)})</div>`:''}</td>
+        <td><div class="pv-cell-name">${escapeHtml(displayName(r))}</div><div class="pv-cell-sub">${escapeHtml(displayInstitution(r))} - ${escapeHtml(displayCountry(r))}</div>${r.segment?`<div class="pv-segment-tag">${escapeHtml(r.segment)}</div>`:''}${r.loginUsername?`<div class="pv-cell-sub">Logged in as ${escapeHtml(r.loginUsername)} (${escapeHtml(r.loginEmail)})</div>`:''}</td>
         <td class="pv-cell-sub">${date}</td>
         <td><select class="pv-mini-select crm-status">${STATUS_OPTIONS.map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
         <td><select class="pv-mini-select crm-priority">${PRIORITY_OPTIONS.map(p=>`<option value="${p}" ${r.priority===p?'selected':''}>${p}</option>`).join('')}</select></td>
         <td><input type="date" class="pv-mini-input crm-followup" value="${escapeHtml(r.followUpDate||'')}"/></td>
-        <td><input type="text" class="pv-mini-input crm-notes" value="${escapeHtml(r.notes||'')}" placeholder="Add a note…"/></td>
+        <td><input type="text" class="pv-mini-input crm-notes" value="${escapeHtml(r.notes||'')}" placeholder="Add a note..."/></td>
         <td><button class="pv-detail-toggle">Details</button></td>
         <td><button class="pv-btn pv-btn-danger crm-delete">Delete</button></td>
       </tr>
       <tr class="pv-detail" data-detail-for="${r.id}"><td colspan="8">
         <div class="pv-detail-inner">
           <div class="pv-detail-group-label">General</div>
-          ${currentConfig.questions.map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '—')}</div>`).join('')}
-          ${segQs.length ? `<div class="pv-detail-group-label">${escapeHtml(r.segment)}</div>` + segQs.map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '—')}</div>`).join('') : ''}
+          ${currentConfig.questions.map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '-')}</div>`).join('')}
+          ${segQs.length ? `<div class="pv-detail-group-label">${escapeHtml(r.segment)}</div>` + segQs.map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '-')}</div>`).join('') : ''}
           <div class="pv-detail-group-label">General (continued)</div>
-          ${(currentConfig.closingQuestions||[]).map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '—')}</div>`).join('')}
+          ${(currentConfig.closingQuestions||[]).map(q => `<div><b>${escapeHtml(q.label)}:</b> ${escapeHtml(r.answers[q.id] || '-')}</div>`).join('')}
         </div>
       </td></tr>`;
     });
@@ -1176,13 +1184,13 @@
       }
       ensureSegmentsMatchBranch();
       const status = document.getElementById('ivSaveStatus');
-      status.textContent = 'Saving…';
+      status.textContent = 'Saving...';
       try{
         await saveConfig(currentConfig);
         status.textContent = 'Saved just now';
         toast('Survey updated');
       }catch(e){
-        status.textContent = 'Could not save — try again';
+        status.textContent = 'Could not save - try again';
       }
     });
   }
@@ -1232,3 +1240,5 @@
 
 })();
 </script>
+</body>
+</html>
