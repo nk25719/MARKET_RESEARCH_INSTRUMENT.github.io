@@ -189,11 +189,11 @@
           </div>
           <div class="pv-gate-error" id="gateRespondentError">Please enter both a name and a valid email.</div>
           <button class="pv-btn pv-btn-primary" id="gateRespondentBtn" style="width:100%;justify-content:center;">Continue to Survey</button>
-          <div class="pv-gate-footer">Administering this study? <button id="showAdminLink">Log in as admin</button></div>
+          <div class="pv-gate-footer">Administering this study? <button id="showAdminLink" type="button">Log in as admin</button></div>
         </div>
 
         <div class="pv-gate-card" id="gateAdmin" style="display:none;">
-          <button class="pv-gate-back" id="showRespondentLink">&larr; Back</button>
+          <button class="pv-gate-back" id="showRespondentLink" type="button">&larr; Back</button>
           <div class="pv-gate-icon" id="gateIconAdmin"></div>
           <span class="pv-gate-eyebrow">Administrator Access</span>
           <div class="pv-gate-title">Admin Login</div>
@@ -477,14 +477,25 @@
   async function deleteResponse(id){ await window.storage.delete(RESPONSE_PREFIX + id, true); }
 
   /* ---------------- login gate ---------------- */
+  function showLoginGate(gate){
+    document.getElementById('gateRespondent').style.display = gate === 'respondent' ? '' : 'none';
+    document.getElementById('gateAdmin').style.display = gate === 'admin' ? '' : 'none';
+    document.getElementById('gateRespondentError').classList.remove('show');
+    document.getElementById('gateAdminError').classList.remove('show');
+    if (gate === 'admin') document.getElementById('gateAdminUser').focus();
+    if (gate === 'respondent') document.getElementById('gateUsername').focus();
+  }
+
   document.querySelectorAll('[data-gate]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('[data-gate]').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('gateRespondent').style.display = btn.dataset.gate === 'respondent' ? '' : 'none';
-      document.getElementById('gateAdmin').style.display = btn.dataset.gate === 'admin' ? '' : 'none';
+      showLoginGate(btn.dataset.gate);
     });
   });
+
+  document.getElementById('showAdminLink').addEventListener('click', () => showLoginGate('admin'));
+  document.getElementById('showRespondentLink').addEventListener('click', () => showLoginGate('respondent'));
 
   document.getElementById('gateRespondentBtn').addEventListener('click', () => {
     const username = document.getElementById('gateUsername').value.trim();
